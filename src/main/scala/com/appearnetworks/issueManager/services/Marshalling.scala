@@ -10,9 +10,10 @@ import net.liftweb.json.Serialization._
 import org.bson.types.ObjectId
 import net.liftweb.json.ext.DateTimeSerializer
 
+import domain.IssueState
 
 trait Lift {
-  implicit val liftJsonFormats = DefaultFormats + DateTimeSerializer + new ObjectIdSerializer
+  implicit val liftJsonFormats = DefaultFormats + DateTimeSerializer + ObjectIdSerializer + IssueStateSerializer
 }
 
 trait JsonUnmarshaller {
@@ -40,7 +41,7 @@ trait JsonMarshaller {
 }
 
 
-class ObjectIdSerializer extends Serializer[ObjectId] {
+object ObjectIdSerializer extends Serializer[ObjectId] {
   private val ObjectIdClass = classOf[ObjectId]
 
   def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), ObjectId] = {
@@ -52,5 +53,21 @@ class ObjectIdSerializer extends Serializer[ObjectId] {
 
   def serialize(implicit formats: Formats): PartialFunction[Any, JValue] = {
     case x: ObjectId => JString(x.toString)
+  }
+}
+
+object IssueStateSerializer extends Serializer[IssueState.Value] {
+  private val IssueStateClass = classOf[IssueState.Value]
+  private val values = IssueState.values.map(_.toString)
+
+  def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), IssueState.Value] = {
+    case (TypeInfo(IssueStateClass, _), json) => json match {
+      case JString(s) if (values.contains(s)) => IssueState.withName(s)
+      case x => throw new MappingException("Can't convert " + x + " to IssueStete")
+    }
+  }
+
+  def serialize(implicit formats: Formats): PartialFunction[Any, JValue] = {
+    case x: IssueState.Value => JString(x.toString)
   }
 }

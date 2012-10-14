@@ -8,15 +8,16 @@ import scala.collection.immutable.Map
 import scalaz.effects._
 
 import core.MongoDb
+import core.Settings
 import core.utils.DefaultTimeout
 import domain._
 
 
-class IssueManagerActor(mongoDb: MongoDb) extends Actor with ActorLogging {
+class IssueManagerActor(mongoDb: MongoDb, settings: Settings) extends Actor with ActorLogging {
 
   import IssueStoreMessages._
 
-  val issueDao = new IssueDao(mongoDb("issues"))
+  val issueDao = new IssueDao(mongoDb(settings.issueCollectionName))
   import issueDao._
 
   import IssueState._

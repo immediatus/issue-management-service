@@ -6,8 +6,13 @@ import cc.spray.http.HttpMethods._
 import cc.spray.test.SprayTest
 import org.specs2.mutable._
 import org.specs2.specification.BeforeAfter
+import scalaz.effects._
 
 import services.IssueManageService
+import services.dto._
+import domain.Issue
+import core.MongoDb
+import domain.IssueDao
 
 
 class IssueManageServiceSpec extends Specification
@@ -20,6 +25,23 @@ class IssueManageServiceSpec extends Specification
 
   val duration = Duration("5 s")
 
+    val mongoDb = new MongoDb(settings)
+  val issueDao = new IssueDao(mongoDb(settings.issueCollectionName))
+
+  val issue =  (for {
+      issue <- io { Issue( description = "Data for Testing issue magaer service", reporter = "Reporter1") }
+      id <- issueDao.insertIO(issue) map (_ err "Issue can not created %s.".format(issue.toString))
+      dbIssue <- issueDao.byId(id) } yield dbIssue).
+      unsafePerformIO.getOrElse(Issue(description = "Not stored issue", reporter="WrongReporter"))
+
+  val issueForDelete =  (for {
+      issue <- io { Issue( description = "Data for Testing delete call in issue magaer service", reporter = "Reporter2") }
+      id <- issueDao.insertIO(issue) map (_ err "Issue can not created %s.".format(issue.toString))
+      dbIssue <- issueDao.byId(id) } yield dbIssue).
+      unsafePerformIO.getOrElse(Issue(description = "Not stored issue", reporter="WrongReporter"))
+
+
+
   "The Issue Service when POST" should {
     "/issueCreate - return a 201 (Create) if the issue created" in {
       val response = testService(HttpRequest(
@@ -28,12 +50,11 @@ class IssueManageServiceSpec extends Specification
         content = Some(
           HttpContent(
             ContentType(MediaTypes.`application/json`),
-            "{\"description\":\"Hello World\",\"reporter\":\"Tester\"}"))),
+            "{\"description\":\"Creation Issue Test\",\"reporter\":\"Tester\"}"))),
         duration
         ) { route }.
-        response
-
-        response.status mustEqual StatusCodes.Created
+        response.
+        status mustEqual StatusCodes.Created
     }
 
     "/issueDescriptionUpdate - return a 200 if the issue updated" in {
@@ -43,7 +64,7 @@ class IssueManageServiceSpec extends Specification
         content = Some(
           HttpContent(
             ContentType(MediaTypes.`application/json`),
-            "{\"id\":\"50799bc244ae178375fbae85\",\"value\":\"Updated Description\"}"))),
+            "{\"id\":\"%s\",\"value\":\"Updated Description\"}" format issue.id))),
         duration
         ) { route }.
         response
@@ -58,7 +79,7 @@ class IssueManageServiceSpec extends Specification
         content = Some(
           HttpContent(
             ContentType(MediaTypes.`application/json`),
-            "{\"id\":\"50799bc244ae178375fbae85\",\"value\":\"New Test Reporter\"}"))),
+            "{\"id\":\"%s\",\"value\":\"New Test Reporter\"}" format issue.id))),
         duration
         ) { route }.
         response
@@ -69,7 +90,7 @@ class IssueManageServiceSpec extends Specification
     "/issueProcess/... - return a 200 if the issue processed" in {
       val response = testService(HttpRequest(
         PUT,
-        "/issueProcess/50799ea044ae0212fa29b1cd"),
+        "/issueProcess/%s" format issue.id),
         duration) { route }.
         response
 
@@ -79,7 +100,7 @@ class IssueManageServiceSpec extends Specification
     "/issueCleanup/... - return a 200 if the issue processed" in {
       val response = testService(HttpRequest(
         PUT,
-        "/issueCleanup/2012-10-13T19:30:00Z"),
+        "/issueCleanup/%s" format issue.transitionDate),
         duration) { route }.
         response
 
@@ -89,7 +110,7 @@ class IssueManageServiceSpec extends Specification
     "/issueDelete/... - return a 200 if the issue deleted" in {
       val response = testService(HttpRequest(
         DELETE,
-        "/issueDelete/50799e8244ae5e3f384b2ead"),
+        "/issueDelete/%s" format issueForDelete.id),
         duration) { route }.
         response
 

@@ -15,7 +15,7 @@ import domain.Issue
 import logic._
 
 
-trait IssueReadService extends Directives with DefaultTimeout with JsonMarshaller with Lift {
+trait IssueReadService extends Directives with DefaultTimeout with JsonMarshaller with Lift  {
 
   val actorSystem: ActorSystem
 

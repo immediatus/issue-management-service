@@ -18,13 +18,21 @@ class ApplicationActor extends Actor {
 
       val reader = context.actorOf(
         Props().
-        withCreator(new IssueReaderActor(mongoDb)).
+        withCreator(
+          new IssueReaderActor(
+            mongoDb,
+            settings)
+          ).
         withRouter(FromConfig()),
         "issueReader")
 
        context.actorOf(
         Props().
-        withCreator(new IssueManagerActor(mongoDb)).
+        withCreator(
+          new IssueManagerActor(
+            mongoDb,
+            settings)
+          ).
         withRouter(FromConfig()),
         "issueManager")
 

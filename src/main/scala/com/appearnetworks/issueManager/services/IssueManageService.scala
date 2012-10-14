@@ -25,7 +25,7 @@ trait IssueManageService extends Directives with DefaultTimeout with JsonUnmarsh
   val route =
     path("issueCreate") {
       post {
-        content(as[IssueDTO]) { issue => ctx =>
+        content(as[SimpleIssueDTO]) { issue => ctx =>
           ResponseHelper.singleObjectCallback(ctx, "Object with {%s} cannot be created." format issue, StatusCodes.Created) {
             issueManager ? IssueStoreMessages.CreateIssue(issue.description, issue.reporter)
           }

@@ -1,5 +1,10 @@
 Issue Magement Service
 -------------------------
+
+ Detailed [description] (https://docs.google.com/presentation/d/1aOidSFxUFvHt6FAF6jjW6RWqGaiYezb9f8GgZmGxYno/edit) in google docs.
+
+-------------------------
+
 > HTTP REST Web Service based on:
 
 > [Spray] (http://spray.io/home) ver 1.0 - low-level network IO on top of Scala and Akka. Used: <b>base, can & server</b> modules.

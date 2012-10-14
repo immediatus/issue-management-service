@@ -1,9 +1,9 @@
 Issue Magement Service
 -------------------------
 
- Detailed [description] (https://docs.google.com/presentation/d/1aOidSFxUFvHt6FAF6jjW6RWqGaiYezb9f8GgZmGxYno/edit) in google docs.
+ 
+ - [Detailed description] (https://docs.google.com/presentation/d/1aOidSFxUFvHt6FAF6jjW6RWqGaiYezb9f8GgZmGxYno/edit) in google docs.
 
--------------------------
 
 > HTTP REST Web Service based on:
 

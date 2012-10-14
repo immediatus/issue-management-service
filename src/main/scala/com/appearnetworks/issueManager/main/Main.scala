@@ -19,7 +19,7 @@ object Main {
 }
 
 
-class Application(val actorSystem: ActorSystem) extends Api with Services with Web {
+class Application(val actorSystem: ActorSystem) extends Api with Services with SimpleDeploy {
 
 }
 

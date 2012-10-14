@@ -8,8 +8,6 @@ Issue Magement Service
 
 > [Akka] (http://akka.io/) ver 2.0.2 - toolkit and runtime for building highly concurrent, distributed, and fault tolerant event-driven applications on the JVM.
 
-> [mongoDB] (http://www.mongodb.org) ver 2.2.o - high-performance, open source NoSQL database. 
-
 > [casbah] (https://github.com/mongodb/casbah) ver 2.1.5 - scala toolkit for MongoDB.
 
 > [salat] (https://github.com/novus/salat) ver 1.9.1 - simple serialization library for case classes. Supports bidirectional serialization for MongoDB's DBObject (using casbah).
@@ -17,6 +15,8 @@ Issue Magement Service
 > [Scalaz] (http://code.google.com/p/scalaz/) ver 6.0.4 - Type Classes and Pure Functional Data Structures for Scala.
 
 > [Specs2] (http://etorreborre.github.com/specs2/) ver 1.9 - library for writing executable software specifications for scala.
+
+> [mongoDB] (http://www.mongodb.org) ver 2.2.0 - high-performance, open source NoSQL database. 
 
 ------------------------
 
@@ -29,3 +29,8 @@ To build and run this project:
     > ./sbt.sh
 
 In sbt shell: (> test or > run)
+
+Warning:
+  Be sure that MongoDB is installed!
+  MongoDB installation guide: http://www.mongodb.org/display/DOCS/Quickstart
+  MondoDB downlods: http://www.mongodb.org/downloads

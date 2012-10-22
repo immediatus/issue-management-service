@@ -1,9 +1,7 @@
 Issue Magement Service
 -------------------------
-
- 
- - [Detailed description] (https://docs.google.com/presentation/d/1aOidSFxUFvHt6FAF6jjW6RWqGaiYezb9f8GgZmGxYno/edit) in google docs.
-
+Detailed decription [here] (https://docs.google.com/presentation/d/1aOidSFxUFvHt6FAF6jjW6RWqGaiYezb9f8GgZmGxYno/edit).
+______________________
 
 > HTTP REST Web Service based on:
 
@@ -22,8 +20,7 @@ Issue Magement Service
 > [Specs2] (http://etorreborre.github.com/specs2/) ver 1.9 - library for writing executable software specifications for scala.
 
 > [mongoDB] (http://www.mongodb.org) ver 2.2.0 - high-performance, open source NoSQL database. 
-
-------------------------
+________________________
 
 To build and run this project:
 

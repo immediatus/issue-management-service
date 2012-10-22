@@ -24,7 +24,7 @@ ________________________
 
 To build and run this project:
 
-    > git clone https://github.com/immediatus/issue-management-servise
+    > git clone https://github.com/immediatus/issue-management-service
     
     > cd issue-management-servise
     
